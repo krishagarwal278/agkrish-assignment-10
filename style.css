@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.results {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Creates responsive columns */
+    gap: 20px; /* Adds spacing between items */
+    justify-items: center; /* Centers items within their grid cells */
+}
+
+.results img {
+    max-width: 100%; /* Ensures images do not exceed their container */
+    height: auto; /* Preserves the aspect ratio */
+    max-height: 150px; /* Optional: Adjusts max height to make the grid uniform */
+    object-fit: cover; /* Ensures images don't stretch */
+    border: 1px solid #ccc; /* Optional: Adds a border */
+    border-radius: 5px; /* Optional: Rounds corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow */
+}
+
+.similarity {
+    font-size: 0.8em; /* Makes the text slightly smaller */
+    text-align: center; /* Centers the similarity score below the image */
+}
