@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Search</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            margin: 10px 0 5px;
+        }
+
+        form input, form select, form button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        #results {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #results div {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #results img {
+            max-width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Search</h1>
+    <form id="search-form" enctype="multipart/form-data">
+        <label for="text_query">Text Query:</label>
+        <input type="text" id="text_query" name="text_query"><br><br>
+
+        <label for="image_query">Image Query:</label>
+        <input type="file" id="image_query" name="image_query"><br><br>
+
+        <label for="hybrid_weight">Hybrid Query Weight:</label>
+        <input type="number" id="hybrid_weight" name="hybrid_weight" step="0.1" value="0.5"><br><br>
+
+        <label for="query_type">Query Type:</label>
+        <select id="query_type" name="query_type">
+            <option value="text">Text Query</option>
+            <option value="image">Image Query</option>
+            <option value="hybrid">Hybrid Query</option>
+        </select><br><br>
+
+        <label for="use_pca">Use PCA:</label>
+        <input type="checkbox" id="use_pca" name="use_pca" value="true"><br><br>
+
+        <button type="button" id="search-button">Search</button>
+    </form>
+
+    <h2>Top Search Results</h2>
+    <div id="results"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#search-button").click(function() {
+                var formData = new FormData($("#search-form")[0]);
+
+                $.ajax({
+                    url: "/search",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $("#results").empty(); // Clear previous results
+                        response.forEach(function(result) {
+                            const imageName = result[0];
+                            const similarity = result[1];
+                            $("#results").append(`
+                                <div>
+                                    <img src="${imageName}" alt="${imageName}" style="width:200px;">
+                                    <p>Similarity: ${similarity.toFixed(3)}</p>
+                                </div>
+                            `);
+                        });
+                   x },
+                    error: function() {
+                        alert("Error occurred during the search. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
